@@ -1,2 +1,3 @@
-# correlation
-Marijn Haverbeke's correlation and variations.
+# Squirelness correlation
+
+Marijn Haverbeke's phi correlation and variations about squirelness.
