@@ -95,12 +95,6 @@ var JOURNAL = [
 {"events":["cauliflower","peanuts","brushed teeth","weekend"],"squirrel":false}
 ];
 
-function addEntry(events, fatru) {
-	journal.push({
-		events: events,
-		fatru: fatru
-	})
-}
 // Table will be a two by two table. The table will be given somehow.
 function phi(table) {
 	return (table[3]*table[0]-table[2]*table[1]) /
@@ -111,4 +105,40 @@ function phi(table) {
 		(table[0]+table[2]));
 }
 
-console.log(phi([76, 9, 4, 1]));
+function hasEvent(event, entry) {
+	return entry.events.indexOf(event) != -1;
+}
+
+//Table will be created for each activity on the go.
+function tableFor(event, journal) {
+	var table = [0, 0, 0, 0];
+	for (var i = 0; i < journal.length; i++) {
+		var entry = journal[i], index = 0;
+		if (hasEvent(event, entry)) index += 1;
+		if (entry.squirrel) index += 2;
+		table[index] += 1;
+	}
+	return table;
+}
+
+// Helper for extracting elements needed for tableFor function
+function list(journal){
+	var things = [];
+	for (var i = 0; i < journal.length; i++) {
+		var entry = journal[i].events; // array
+		entry.forEach(function(element){
+			if (things.indexOf(element) == -1) {
+				things.push(element);
+			}
+		});
+	}
+	return things;
+}
+
+var listArr = list(JOURNAL);
+listArr.forEach(function(element){
+	var coeff = phi(tableFor(element, JOURNAL));
+	if (coeff > 0.1 || coeff < -0.1){
+		console.log(element + ": " + coeff);
+	}
+});
